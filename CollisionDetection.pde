@@ -5,6 +5,7 @@ interface Collisionable {
   
 }
 
+
 class HitBox {
   
   PVector position;
@@ -14,7 +15,14 @@ class HitBox {
   PShape boundingBox;
   
   public HitBox(PShape model, PVector position) {
-    HashMap<String,Float> modelBounds = getMeshBounds(model);
+    HashMap<String,Float> modelBounds = new HashMap();
+    modelBounds.put("xMin", MAX_FLOAT);
+    modelBounds.put("xMax", MIN_FLOAT);
+    modelBounds.put("yMin", MAX_FLOAT);
+    modelBounds.put("yMax", MIN_FLOAT);
+    modelBounds.put("zMin", MAX_FLOAT);
+    modelBounds.put("zMax", MIN_FLOAT);
+    getMeshBounds(model, modelBounds);
     boxWidth = modelBounds.get("xMax") - modelBounds.get("xMin");
     boxHeight = modelBounds.get("yMax") - modelBounds.get("yMin");
     boxDepth = modelBounds.get("zMax") - modelBounds.get("zMin");
@@ -24,39 +32,34 @@ class HitBox {
 
 }
 
-public HashMap<String,Float> getMeshBounds(PShape mesh) {
-  PVector vertex;
-  float xMin = MAX_FLOAT, yMin = MAX_FLOAT, zMin = MAX_FLOAT;
-  float xMax = MIN_FLOAT, yMax = MIN_FLOAT, zMax = MIN_FLOAT;
-  for (int i = 0; i < mesh.getVertexCodeCount(); i++) {
-    vertex = mesh.getVertex(i);
-    if (vertex.x < xMin) {
-      xMin = vertex.x;
-    } 
-    if (vertex.x > xMax) {
-      xMax = vertex.x;
-    }
-    if (vertex.y < yMin) {
-      yMin = vertex.y;
-    } 
-    if (vertex.y > yMax) {
-      yMax = vertex.y;
-    }
-    if (vertex.z < zMin) {
-      zMin = vertex.z;
-    }
-    if (vertex.z > zMax) {
-      zMax = vertex.z;
+public void getMeshBounds(PShape mesh, HashMap<String,Float> boundContainer) {
+  if (mesh.getChildCount() > 0) {
+    for (PShape child : mesh.getChildren()) {
+      getMeshBounds(child, boundContainer);
     }
   }
-  HashMap<String,Float> bounds = new HashMap();
-  bounds.put("xMin", xMin);
-  bounds.put("xMax", xMax);
-  bounds.put("yMin", yMin);
-  bounds.put("yMax", yMax);
-  bounds.put("zMin", zMin);
-  bounds.put("zMax", zMax);
-  return bounds;
+  PVector vertex;
+  for (int i = 0; i < mesh.getVertexCount(); i++) {
+    vertex = mesh.getVertex(i);
+    if (vertex.x < boundContainer.get("xMin")) {
+      boundContainer.put("xMin", vertex.x);
+    } 
+    if (vertex.x > boundContainer.get("xMax")) {
+      boundContainer.put("xMax", vertex.x);
+    }
+    if (vertex.y < boundContainer.get("yMin")) {
+      boundContainer.put("yMin", vertex.y);
+    } 
+    if (vertex.y > boundContainer.get("yMax")) {
+      boundContainer.put("yMax", vertex.y);
+    }
+    if (vertex.z < boundContainer.get("zMin")) {
+      boundContainer.put("zMin", vertex.z);
+    }
+    if (vertex.z > boundContainer.get("zMax")) {
+      boundContainer.put("zMax", vertex.z);
+    }
+  }
 }
 
 

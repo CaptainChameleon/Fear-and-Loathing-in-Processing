@@ -44,7 +44,6 @@ class Car implements Collisionable {
   public void display() {
     move();
     pushMatrix();
-      //println(carPos);
       translate(position.x, position.y, position.z + model.getHeight()/2);
       rotateX(-PI/2);
       shape(model);
