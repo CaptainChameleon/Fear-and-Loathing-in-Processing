@@ -5,7 +5,7 @@ class GameWorld {
   private final int SUN_SIZE = 400;
   private final float TERRAIN_SIZE;
   private final float CAR_TO_RAIL_PROPORTION = 2.0/3.0;
-  private final int SPEED_MIN = 30;
+  private final int SPEED_MIN = 50;
   private final int SPEED_MAX = 120;
   
   
@@ -43,7 +43,7 @@ class GameWorld {
     leftTerrain.moveForward(currentSpeedInCellsPerSecond);
     rightTerrain.moveForward(currentSpeedInCellsPerSecond);
     
-    //road.moveForward(currentSpeedInCellsPerSecond);
+    road.moveForward(currentSpeedInCellsPerSecond);
     
     // Check collisions
     for (Obstacle obstacle : road.obstacles) {

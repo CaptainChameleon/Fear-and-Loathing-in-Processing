@@ -25,8 +25,7 @@ class Road {
   void spawnObstacles() {
     int obstacleNum = (int)random(lanes);
     for (int i = 0; i < obstacleNum; i++) {
-      //obstacles.add(new Obstacle(new PVector(-roadWidth/2 + laneWidth*(int)random(lanes) + OBSTACLE_SIZE/2 + 0.25*laneWidth, -roadDepth, 0)));
-      obstacles.add(new Obstacle(new PVector(100.0, 750.0, 0.0)));
+      obstacles.add(new Obstacle(new PVector(-roadWidth/2 + laneWidth*(int)random(lanes) + OBSTACLE_SIZE/2 + 0.25*laneWidth, -roadDepth, 0)));
     }
   }
   
